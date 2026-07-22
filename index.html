@@ -1,336 +1,1115 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Leonardo M. Scarcia | Senior Creative Designer</title>
-  <meta name="description" content="Senior Creative Designer specialized in Brand Identity, Motion Graphics and Digital Experiences. 20+ years of international experience creating visual systems, campaigns and digital products.">
-  <link rel="stylesheet" href="style.css">
+  <title>Leonardo M. Scarcia | Senior Creative Director & Motion Designer</title>
+  <meta name="description" content="Portfolio profesional de Leonardo M. Scarcia (Buda Studio). Más de 20 años de trayectoria en dirección creativa, brand identity, motion graphics y diseño asistido por IA.">
+  <style>
+    /* ==========================================================================
+       1. VARIABLES & DESIGN SYSTEM
+       ========================================================================== */
+    :root {
+      --bg-primary: #0a0a0c;
+      --bg-secondary: #121318;
+      --bg-card: rgba(255, 255, 255, 0.03);
+      --bg-card-hover: rgba(255, 255, 255, 0.06);
+      
+      --text-primary: #f3f4f6;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      
+      --accent: #5e6ad2;
+      --accent-glow: rgba(94, 106, 210, 0.35);
+      --accent-light: #828df8;
+      
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(94, 106, 210, 0.5);
+      
+      --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: "SF Mono", "Fira Code", "Roboto Mono", monospace;
+      
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-full: 9999px;
+      
+      --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-smooth: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      
+      --max-width: 1200px;
+    }
+
+    /* ==========================================================================
+       2. RESET & BASE STYLES
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      color-scheme: dark;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      selection-background-color: var(--accent);
+      selection-color: #ffffff;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Background Ambient Glow */
+    .ambient-glow {
+      position: fixed;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(94, 106, 210, 0.15) 0%, rgba(10, 10, 12, 0) 70%);
+      z-index: -1;
+      pointer-events: none;
+      filter: blur(60px);
+    }
+
+    .container {
+      width: 90%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ==========================================================================
+       3. NAVIGATION (STICKY & GLASS)
+       ========================================================================== */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1.25rem 0;
+      transition: background-color var(--transition-fast), backdrop-filter var(--transition-fast), border var(--transition-fast);
+    }
+
+    .header.scrolled {
+      background-color: rgba(10, 10, 12, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.85rem 0;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: -0.03em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--accent-light);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent-light);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-primary);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.85rem;
+      background-color: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      border-radius: var(--radius-full);
+      font-size: 0.78rem;
+      color: #4ade80;
+      font-weight: 500;
+    }
+
+    .status-pulse {
+      width: 6px;
+      height: 6px;
+      background-color: #22c55e;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #22c55e;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.2); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    /* ==========================================================================
+       4. HERO SECTION
+       ========================================================================== */
+    .hero {
+      padding-top: 10rem;
+      padding-bottom: 6rem;
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--accent-light);
+      margin-bottom: 1.25rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 5vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(180deg, #ffffff 0%, #a1a1aa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      max-width: 540px;
+      margin-bottom: 2.5rem;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.85rem 1.75rem;
+      border-radius: var(--radius-full);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background-color: var(--text-primary);
+      color: var(--bg-primary);
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-primary:hover {
+      background-color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(255, 255, 255, 0.25);
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-card);
+      color: var(--text-primary);
+      border-color: var(--border-subtle);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--bg-card-hover);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* Photo Placeholder */
+    .profile-container {
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+
+    .profile-wrapper {
+      position: relative;
+      border-radius: var(--radius-lg);
+      padding: 8px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.02));
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .profile-img-placeholder {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      border-radius: calc(var(--radius-lg) - 4px);
+      background: linear-gradient(135deg, #1f2232 0%, #111218 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      text-align: center;
+      padding: 1.5rem;
+      position: relative;
+    }
+
+    .profile-img-placeholder svg {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 1rem;
+      stroke: var(--accent-light);
+      opacity: 0.7;
+    }
+
+    .profile-note {
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      color: var(--text-secondary);
+      background: rgba(0,0,0,0.5);
+      padding: 0.4rem 0.8rem;
+      border-radius: var(--radius-sm);
+      border: 1px dashed var(--border-subtle);
+    }
+
+    /* ==========================================================================
+       5. STATEMENT SECTION
+       ========================================================================== */
+    .section {
+      padding: 6rem 0;
+    }
+
+    .statement {
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      background: radial-gradient(circle at center, rgba(94, 106, 210, 0.05) 0%, transparent 70%);
+      padding: 7rem 0;
+      text-align: center;
+    }
+
+    .statement-text {
+      font-size: clamp(1.8rem, 3.5vw, 3rem);
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.03em;
+      max-width: 900px;
+      margin: 0 auto;
+      color: var(--text-secondary);
+    }
+
+    .statement-text span {
+      color: var(--text-primary);
+      background: linear-gradient(120deg, #ffffff, var(--accent-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ==========================================================================
+       6. SELECTED WORK
+       ========================================================================== */
+    .section-header {
+      margin-bottom: 3.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    .section-subtitle {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+
+    .work-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all var(--transition-smooth);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .work-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--border-focus);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 30px var(--accent-glow);
+    }
+
+    .work-media {
+      width: 100%;
+      aspect-ratio: 16/10;
+      background: linear-gradient(135deg, #1a1b26 0%, #0d0e12 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .work-media-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .work-content {
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .work-tags {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.85rem;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-secondary);
+    }
+
+    .work-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .work-desc {
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+    }
+
+    .work-link {
+      margin-top: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--accent-light);
+    }
+
+    .work-link svg {
+      transition: transform var(--transition-fast);
+    }
+
+    .work-card:hover .work-link svg {
+      transform: translateX(4px);
+    }
+
+    /* ==========================================================================
+       7. ABOUT SECTION
+       ========================================================================== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-text {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+    }
+
+    .about-text p {
+      margin-bottom: 1.5rem;
+    }
+
+    .skills-container {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+    }
+
+    .skills-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .skills-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .skills-group-title {
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .skill-chip {
+      padding: 0.4rem 0.8rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      color: var(--text-primary);
+    }
+
+    /* ==========================================================================
+       8. CLIENTS / PARTNERS
+       ========================================================================== */
+    .clients-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .client-item {
+      height: 80px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      letter-spacing: -0.02em;
+      transition: all var(--transition-fast);
+      filter: grayscale(100%);
+      opacity: 0.6;
+      text-align: center;
+      padding: 0.5rem;
+    }
+
+    .client-item:hover {
+      opacity: 1;
+      filter: grayscale(0%);
+      border-color: rgba(255,255,255,0.2);
+      color: var(--text-primary);
+      transform: translateY(-2px);
+    }
+
+    /* ==========================================================================
+       9. EXPERIENCE / TIMELINE
+       ========================================================================== */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .timeline-item {
+      padding: 1.75rem;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 2rem;
+      transition: border-color var(--transition-fast);
+    }
+
+    .timeline-item:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .timeline-period {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .timeline-role {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline-company {
+      color: var(--accent-light);
+      font-size: 0.9rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .timeline-desc {
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    /* ==========================================================================
+       10. CONTACT SECTION
+       ========================================================================== */
+    .contact-box {
+      background: linear-gradient(135deg, rgba(94, 106, 210, 0.1) 0%, rgba(18, 19, 24, 0.8) 100%);
+      border: 1px solid var(--border-focus);
+      border-radius: var(--radius-lg);
+      padding: 4rem 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-title {
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+    }
+
+    .contact-subtitle {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      max-width: 500px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .contact-email {
+      font-size: clamp(1.2rem, 2.5vw, 2rem);
+      font-weight: 700;
+      color: var(--text-primary);
+      text-decoration: underline;
+      text-underline-offset: 8px;
+      text-decoration-color: var(--accent);
+      transition: text-decoration-color var(--transition-fast);
+    }
+
+    .contact-email:hover {
+      text-decoration-color: #ffffff;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .social-link {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      transition: all var(--transition-fast);
+    }
+
+    .social-link:hover {
+      color: var(--text-primary);
+      background-color: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    /* ==========================================================================
+       11. FOOTER
+       ========================================================================== */
+    .footer {
+      padding: 3rem 0;
+      border-top: 1px solid var(--border-subtle);
+      margin-top: 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* ==========================================================================
+       12. ELEGANT SCROLL REVEAL ANIMATIONS
+       ========================================================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+
+    /* ==========================================================================
+       13. RESPONSIVE DESIGN
+       ========================================================================== */
+    @media (max-width: 900px) {
+      .hero-grid, .about-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      .profile-container {
+        max-width: 300px;
+      }
+      .work-grid {
+        grid-template-columns: 1fr;
+      }
+      .timeline-item {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- HEADER / NAVBAR -->
-  <header class="navbar">
-    <div class="nav-container">
-      <a href="#" class="nav-logo">LMS</a>
+  <!-- Background Ambient Lighting Effect -->
+  <div class="ambient-glow"></div>
+
+  <!-- Header & Navigation -->
+  <header class="header" id="header">
+    <div class="container nav">
+      <a href="#" class="logo">
+        <span class="logo-dot"></span>
+        Buda Studio
+      </a>
+      
       <nav class="nav-links">
-        <a href="#work">Work</a>
-        <a href="#about">About</a>
-        <a href="#experience">Experience</a>
-        <a href="#contact">Contact</a>
+        <a href="#work">Proyectos Proyectos</a>
+        <a href="#about">Sobre Mí</a>
+        <a href="#experience">Experiencia</a>
+        <a href="#contact">Contacto</a>
       </nav>
+
       <div class="status-badge">
         <span class="status-pulse"></span>
-        Available Q3/Q4
+        Disponible para Proyectos
       </div>
     </div>
   </header>
 
-  <main>
-    <!-- HERO SECTION -->
-    <section class="hero-section">
-      <div class="container">
-        <span class="hero-tag">Senior Creative Designer</span>
-        <h1 class="hero-title">
-          Brand Identity<br>
-          Motion Graphics<br>
-          Digital Experiences.
-        </h1>
-        <p class="hero-subtitle">
-          Creative Designer with 20+ years of international experience creating visual identities, motion graphics, digital experiences and communication systems for brands and agencies.
-        </p>
-        <div class="hero-actions">
-          <a href="#work" class="btn btn-primary">Selected Work</a>
-          <a href="#contact" class="btn btn-secondary">Contacto</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- STATEMENT SECTION -->
-    <section class="statement-section">
-      <div class="container">
-        <blockquote class="statement-text">
-          "Design is not only about aesthetics. <span>It is about creating meaning, emotion and connection.</span> A visual language that transforms ideas into experiences."
-        </blockquote>
-      </div>
-    </section>
-
-    <!-- SELECTED WORK SECTION -->
-    <section id="work" class="work-section">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">Selected Work</h2>
-          <p class="section-subtitle">Selected projects in branding, motion graphics and digital experiences.</p>
-        </div>
-
-        <div class="work-grid">
-          <!-- CARD 1 -->
-          <div class="work-card reveal">
-            <div class="work-media">
-              <img src="budacollective.jpg" alt="Buda Collective Welcome" style="width: 100%; height: 100%; object-fit: cover;">
-            </div>
-            <div class="work-content">
-              <div class="work-tags">
-                <span class="tag">Creative Direction</span>
-                <span class="tag">Digital Experience</span>
-                <span class="tag">Brand System</span>
-              </div>
-              <h3 class="work-title">Buda Collective Art</h3>
-              <p class="work-desc">
-                A digital ecosystem connecting artists through curation, storytelling and interactive experiences.<br><br>
-                Creative direction, UX structure and digital platform development.
-              </p>
-              <a href="#" class="work-link">
-                Ver Caso de Estudio
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
-              </a>
-            </div>
-          </div>
-
-          <!-- CARD 2 -->
-          <div class="work-card reveal">
-            <div class="work-media">
-              <div class="work-media-placeholder">
-                <span>Brand Identity</span>
-              </div>
-            </div>
-            <div class="work-content">
-              <div class="work-tags">
-                <span class="tag">Brand Identity</span>
-                <span class="tag">Art Direction</span>
-              </div>
-              <h3 class="work-title">Brand Identity Projects</h3>
-              <p class="work-desc">
-                Development of visual identities, brand systems and communication guidelines creating consistent experiences across digital platforms.
-              </p>
-              <a href="#" class="work-link">
-                Ver Caso de Estudio
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
-              </a>
-            </div>
-          </div>
-
-          <!-- CARD 3 -->
-          <div class="work-card reveal">
-            <div class="work-media">
-              <div class="work-media-placeholder">
-                <span>Motion Graphics</span>
-              </div>
-            </div>
-            <div class="work-content">
-              <div class="work-tags">
-                <span class="tag">Motion Design</span>
-                <span class="tag">Animation</span>
-              </div>
-              <h3 class="work-title">Motion Graphics</h3>
-              <p class="work-desc">
-                Animation, visual storytelling and motion systems created for advertising, brands and digital content.
-              </p>
-              <a href="#" class="work-link">
-                Ver Caso de Estudio
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
-              </a>
-            </div>
-          </div>
-
-          <!-- CARD 4 -->
-          <div class="work-card reveal">
-            <div class="work-media">
-              <div class="work-media-placeholder">
-                <span>Digital Experiences</span>
-              </div>
-            </div>
-            <div class="work-content">
-              <div class="work-tags">
-                <span class="tag">UX/UI</span>
-                <span class="tag">Digital Design</span>
-              </div>
-              <h3 class="work-title">Digital Experiences</h3>
-              <p class="work-desc">
-                Interactive digital experiences combining design, technology and storytelling to create engaging user journeys.
-              </p>
-              <a href="#" class="work-link">
-                Ver Caso de Estudio
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ABOUT & SKILLS SECTION -->
-    <section id="about" class="about-section">
-      <div class="container">
-        <div class="about-grid">
-          <div class="about-content">
-            <h2 class="section-title">About & Philosophy</h2>
-            <p>
-              I am Leonardo M. Scarcia, Senior Creative Designer specialized in Brand Identity, Motion Graphics and Digital Experiences.
-            </p>
-            <p>
-              With more than 20 years of international experience, I have collaborated with agencies and brands including Mormaii, Neokai, Cellfish Media, TBWA Worldwide, The Jeffrey Group and United Virtualities.
-            </p>
-            <p>
-              My approach combines strategy, creativity and technology to transform ideas into meaningful visual experiences.
-            </p>
-            <p>
-              I believe great design is the balance between clarity, emotion and purpose.
-            </p>
-          </div>
-
-          <div class="skills-content">
-            <h3 class="skills-title">Core Disciplines</h3>
-            <ul class="skills-list">
-              <li>Brand Identity</li>
-              <li>Creative Direction</li>
-              <li>Motion Graphics</li>
-              <li>Visual Storytelling</li>
-              <li>Digital Experiences</li>
-            </ul>
-
-            <h3 class="skills-title" style="margin-top: 2rem;">Software & Tools</h3>
-            <ul class="skills-list">
-              <li>Photoshop</li>
-              <li>Illustrator</li>
-              <li>After Effects</li>
-              <li>Premiere Pro</li>
-              <li>Blender 3D</li>
-              <li>Figma</li>
-            </ul>
-
-            <h3 class="skills-title" style="margin-top: 2rem;">AI Creative Tools</h3>
-            <ul class="skills-list">
-              <li>Midjourney</li>
-              <li>Adobe Firefly</li>
-              <li>Runway</li>
-              <li>Leonardo AI</li>
-              <li>ChatGPT</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CLIENTS SECTION -->
-    <section class="clients-section">
-      <div class="container">
-        <p class="clients-label">TRUSTED BY LEADING BRANDS & AGENCIES</p>
-        <div class="clients-grid">
-          <span class="client-logo">MORMAII</span>
-          <span class="client-logo">NEOKAI</span>
-          <span class="client-logo">CELLFISH MEDIA</span>
-          <span class="client-logo">TBWA</span>
-          <span class="client-logo">UNITED VIRTUALITIES</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- EXPERIENCE TIMELINE SECTION -->
-    <section id="experience" class="experience-section">
-      <div class="container">
-        <h2 class="section-title">Experience Timeline</h2>
-        
-        <div class="timeline">
-          <!-- ITEM 1 -->
-          <div class="timeline-item">
-            <div class="timeline-period">2012 — Present</div>
-            <h3 class="timeline-role">Founder & Creative Director</h3>
-            <div class="timeline-company">Buda Studio — Brazil</div>
-            <p class="timeline-desc">
-              Leading creative projects in branding, motion graphics, digital experiences, AI-assisted design and visual storytelling.
-            </p>
-          </div>
-
-          <!-- ITEM 2 -->
-          <div class="timeline-item">
-            <div class="timeline-period">2021 — Present</div>
-            <h3 class="timeline-role">Art Director & Visual Storyteller</h3>
-            <div class="timeline-company">Buda Studio</div>
-            <p class="timeline-desc">
-              Creating visual narratives, presentations, digital campaigns and creative systems combining design, animation and technology.
-            </p>
-          </div>
-
-          <!-- ITEM 3 -->
-          <div class="timeline-item">
-            <div class="timeline-period">2018 — 2019</div>
-            <h3 class="timeline-role">Senior Designer</h3>
-            <div class="timeline-company">Neokai</div>
-            <p class="timeline-desc">
-              Brand identity, digital campaigns, visual assets and creative production for online platforms.
-            </p>
-          </div>
-
-          <!-- ITEM 4 -->
-          <div class="timeline-item">
-            <div class="timeline-period">2011 — 2013</div>
-            <h3 class="timeline-role">Senior Motion Graphics Designer</h3>
-            <div class="timeline-company">Mormaii</div>
-            <p class="timeline-desc">Motion graphics, brand assets, and creative media production.</p>
-          </div>
-
-          <!-- ITEM 5 -->
-          <div class="timeline-item">
-            <div class="timeline-period">2010 — 2011</div>
-            <h3 class="timeline-role">Creative Services Director</h3>
-            <div class="timeline-company">Cellfish Media</div>
-            <p class="timeline-desc">Direction and management of creative services and digital products.</p>
-          </div>
-
-          <!-- ITEM 6 -->
-          <div class="timeline-item">
-            <div class="timeline-period">2008 — 2010</div>
-            <h3 class="timeline-role">Senior Web Designer</h3>
-            <div class="timeline-company">Cellfish Media</div>
-            <p class="timeline-desc">Web design and interactive interface development.</p>
-          </div>
-
-          <!-- ITEM 7 -->
-          <div class="timeline-item">
-            <div class="timeline-period">2006 — 2007</div>
-            <h3 class="timeline-role">Interactive Designer</h3>
-            <div class="timeline-company">The Jeffrey Group</div>
-            <p class="timeline-desc">Interactive strategy, digital collateral, and brand design.</p>
-          </div>
-
-          <!-- ITEM 8 -->
-          <div class="timeline-item">
-            <div class="timeline-period">2004 — 2005</div>
-            <h3 class="timeline-role">Senior Web Developer</h3>
-            <div class="timeline-company">TBWA Worldwide</div>
-            <p class="timeline-desc">Digital platform creation and web development for global advertising clients.</p>
-          </div>
-
-          <!-- ITEM 9 -->
-          <div class="timeline-item">
-            <div class="timeline-period">1999 — 2004</div>
-            <h3 class="timeline-role">Multimedia Designer</h3>
-            <div class="timeline-company">United Virtualities</div>
-            <p class="timeline-desc">Interactive design, multimedia production, and early web experiences.</p>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT SECTION -->
-    <section id="contact" class="contact-section">
-      <div class="container">
-        <h2 class="contact-title">Let's create something meaningful.</h2>
-        <p class="contact-subtitle">
-          Available for Creative Direction, Brand Identity, Motion Design and Digital Experience projects.
-        </p>
-        <a href="mailto:hola@tudominio.com" class="btn btn-primary btn-large">Iniciar Conversación</a>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
+  <!-- Hero Section -->
+  <section class="hero">
     <div class="container">
-      <p>&copy; 2026 Leonardo M. Scarcia. All rights reserved.</p>
+      <div class="hero-grid">
+        <div class="hero-content reveal">
+          <span class="hero-tag">Senior Graphic & Motion Designer • Creative Director</span>
+          <h1 class="hero-title">Leonardo M. Scarcia</h1>
+          <p class="hero-subtitle">
+            Más de 20 años de trayectoria internacional transformando conceptos complejos en sistemas visuales, identidades de marca, motion graphics y proyectos asistidos por IA.
+          </p>
+          <div class="hero-cta">
+            <a href="#work" class="btn btn-primary">Ver Proyectos</a>
+            <a href="#contact" class="btn btn-secondary">Contacto</a>
+          </div>
+        </div>
+
+        <!-- Photo Integration Placeholder -->
+        <div class="profile-container reveal delay-1">
+          <div class="profile-wrapper">
+            <div class="profile-img-placeholder">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+              </svg>
+              <p style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Leonardo M. Scarcia</p>
+              <span class="profile-note">Garopaba, Santa Catarina, Brasil</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </section>
+
+  <!-- Editorial Statement Section -->
+  <section class="statement section">
+    <div class="container">
+      <p class="statement-text reveal">
+        "Combinando estrategia, tecnología y creatividad para <span>transformar ideas abstractas en narrativas visuales e identidades memorables</span>."
+      </p>
+    </div>
+  </section>
+
+  <!-- Selected Work Section -->
+  <section class="section" id="work">
+    <div class="container">
+      <div class="section-header reveal">
+        <div>
+          <h2 class="section-title">Trabajos Destacados</h2>
+          <p class="section-subtitle">Proyectos seleccionados de dirección de arte, branding, motion graphics y arte digital.</p>
+        </div>
+      </div>
+
+      <div class="work-grid">
+        <!-- Project Card 1 -->
+        <div class="work-card reveal">
+          <div class="work-media">
+            <div class="work-media-placeholder">
+              <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
+              <span>Buda Studio Core Brand</span>
+            </div>
+          </div>
+          <div class="work-content">
+            <div class="work-tags">
+              <span class="tag">Brand Identity</span>
+              <span class="tag">Art Direction</span>
+            </div>
+            <h3 class="work-title">Buda Studio Branding</h3>
+            <p class="work-desc">Diseño de identidad visual completa, dirección creativa e integración de workflows de diseño asistido por IA para marcas globales.</p>
+            <a href="https://behance.net/budastudio" target="_blank" class="work-link">
+              Ver en Behance
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Project Card 2 -->
+        <div class="work-card reveal delay-1">
+          <div class="work-media">
+            <div class="work-media-placeholder">
+              <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
+              <span>NFT NYC & NFC Lisbon</span>
+            </div>
+          </div>
+          <div class="work-content">
+            <div class="work-tags">
+              <span class="tag">Digital Animation</span>
+              <span class="tag">Web3 Exhibitions</span>
+            </div>
+            <h3 class="work-title">Web3 & Digital Art Exhibitions</h3>
+            <p class="work-desc">Exposiciones internacionales de animación digital y arte visual presentadas en eventos globales como NFT NYC y NFC Lisboa.</p>
+            <a href="https://budastudio.github.io/portfolio/" target="_blank" class="work-link">
+              Ver Portfolio Web
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Project Card 3 -->
+        <div class="work-card reveal">
+          <div class="work-media">
+            <div class="work-media-placeholder">
+              <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
+              <span>Motion & Video Campaigns</span>
+            </div>
+          </div>
+          <div class="work-content">
+            <div class="work-tags">
+              <span class="tag">Motion Graphics</span>
+              <span class="tag">Video Editing</span>
+            </div>
+            <h3 class="work-title">Campañas Audiovisuales & Motion</h3>
+            <p class="work-desc">Producción de videos promocionales, animaciones tipográficas, edición de video y contenido dinámico para clientes internacionales.</p>
+            <a href="#contact" class="work-link">
+              Consultar Proyecto
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Project Card 4 -->
+        <div class="work-card reveal delay-1">
+          <div class="work-media">
+            <div class="work-media-placeholder">
+              <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
+              <span>AI-Assisted Workflows</span>
+            </div>
+          </div>
+          <div class="work-content">
+            <div class="work-tags">
+              <span class="tag">AI Generative Workflows</span>
+              <span class="tag">Creative Direction</span>
+            </div>
+            <h3 class="work-title">Generación Visual asistida por IA</h3>
+            <p class="work-desc">Integración de herramientas como Midjourney y ChatGPT en flujos de trabajo creativos para acelerar prototipos e identidades visuales.</p>
+            <a href="#contact" class="work-link">
+              Ver Detalles
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="reveal">
+          <h2 class="section-title" style="margin-bottom: 1.5rem;">Sobre Mí & Filosofía</h2>
+          <div class="about-text">
+            <p>
+              Soy diseñador gráfico senior y director creativo formado en Diseño Gráfico en la Universidad de Buenos Aires (UBA) e Ilustración & Pintura en el Instituto de Bellas Artes.
+            </p>
+            <p>
+              Con más de dos décadas de trayectoria, combino dirección de arte, motion graphics, branding y tecnologías emergentes asistidas por IA. Mi enfoque une la fuerza del arte tradicional con las herramientas digitales contemporáneas para comunicar con claridad, propósito y rigor estético.
+            </p>
+          </div>
+        </div>
+
+        <div class="skills-container reveal delay-1">
+          <h3 class="skills-title">Habilidades & Herramientas</h3>
+          
+          <div class="skills-group">
+            <div class="skills-group-title">Especialidades & Dirección</div>
+            <div class="skills-list">
+              <span class="skill-chip">Brand Identity</span>
+              <span class="skill-chip">Motion Graphics</span>
+              <span class="skill-chip">Creative Direction</span>
+              <span class="skill-chip">Video Editing</span>
+              <span class="skill-chip">Social Media Assets</span>
+              <span class="skill-chip">AI-assisted Workflows</span>
+            </div>
+          </div>
+
+          <div class="skills-group">
+            <div class="skills-group-title">Software & Tools</div>
+            <div class="skills-list">
+              <span class="skill-chip">After Effects</span>
+              <span class="skill-chip">Premiere Pro</span>
+              <span class="skill-chip">Photoshop</span>
+              <span class="skill-chip">Illustrator</span>
+              <span class="skill-chip">Figma</span>
+              <span class="skill-chip">Blender</span>
+              <span class="skill-chip">Midjourney</span>
+              <span class="skill-chip">CapCut</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Clients Section -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2 class="section-title">Marcas & Colaboraciones</h2>
+      </div>
+      <div class="clients-grid reveal">
+        <div class="client-item">TBWA Worldwide</div>
+        <div class="client-item">Mormaii</div>
+        <div class="client-item">Cellfish Media</div>
+        <div class="client-item">The Jeffrey Group</div>
+        <div class="client-item">Neokai</div>
+        <div class="client-item">United Virtualities</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section class="section" id="experience">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2 class="section-title">Experiencia</h2>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item reveal">
+          <div class="timeline-period">2012 — Presente</div>
+          <div>
+            <h3 class="timeline-role">Founder & Creative Director</h3>
+            <div class="timeline-company">Buda Studio — Brasil / Remoto</div>
+            <p class="timeline-desc">Liderando proyectos de diseño gráfico, identidad de marca, motion graphics, contenido audiovisual y desarrollo visual asistido por IA para marcas e instituciones internacionales.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-period">Anteriormente</div>
+          <div>
+            <h3 class="timeline-role">Senior Designer & Art Director</h3>
+            <div class="timeline-company">Neokai / Mormaii / TBWA / Cellfish Media</div>
+            <p class="timeline-desc">Desarrollo de campañas publicitarias digitales, piezas de motion graphics, empaque, branding y sistemas visuales interactivos.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-period">Trayectoria Artística</div>
+          <div>
+            <h3 class="timeline-role">Visual Artist & Web3 Exhibitor</h3>
+            <div class="timeline-company">Exposiciones Internacionales</div>
+            <p class="timeline-desc">Exposiciones de animación digital y proyectos de arte visual presentados en NFT NYC y NFC Lisboa.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="contact-box reveal">
+        <h2 class="contact-title">¿Tienes un proyecto en mente?</h2>
+        <p class="contact-subtitle">Disponible para proyectos freelance, dirección creativa, branding o consultoría audiovisual.</p>
+        <a href="mailto:budastudiomkt@gmail.com" class="contact-email">budastudiomkt@gmail.com</a>
+
+        <div class="social-links">
+          <a href="https://behance.net/budastudiomkt" target="_blank" class="social-link" aria-label="Behance">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.098.969.098 1.169h-8.031c.068 1.838 1.357 2.827 2.887 2.827 1.268 0 2.148-.568 2.502-1.427h2.368zm-5.321-5.184c-1.282 0-2.227.768-2.422 1.984h4.811c-.083-1.258-.948-1.984-2.389-1.984zm-12.405 7.184h-6v-14h6.821c2.81 0 4.887.893 4.887 3.496 0 1.583-.902 2.628-2.203 3.109 1.82.43 2.795 1.788 2.795 3.73 0 2.827-2.348 3.665-6.3 3.665zm-3.003-8.156h2.72c1.371 0 2.215-.461 2.215-1.488 0-1.002-.79-1.481-2.155-1.481h-2.78v2.969zm0 5.312h2.955c1.558 0 2.518-.518 2.518-1.705 0-1.205-.989-1.705-2.583-1.705h-2.89v3.41detailz"/></svg>
+          </a>
+          <a href="https://budastudio.github.io/portfolio/" target="_blank" class="social-link" aria-label="Portfolio">
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer container">
+    <p>&copy; <span id="year"></span> Leonardo M. Scarcia (Buda Studio). Todos los derechos reservados.</p>
+    <p>Diseño inspirado en Apple, Linear & Buck.</p>
   </footer>
 
+  <!-- Single Script File for Animations and Interactions -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Set Copyright Year
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // 1. Sticky Navigation Blur Effect on Scroll
+      const header = document.getElementById('header');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 40) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      });
+
+      // 2. Scroll Reveal Animation using IntersectionObserver
+      const revealElements = document.querySelectorAll('.reveal');
+
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            // Unobserve after animating once
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        root: null,
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      revealElements.forEach(el => revealObserver.observe(el));
+
+      // 3. Smooth Scroll for Anchor Links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            e.preventDefault();
+            const headerOffset = 80;
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
